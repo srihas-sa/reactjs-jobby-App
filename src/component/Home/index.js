@@ -1,3 +1,4 @@
+import {Redirect, Link} from 'react-router-dom'
 import Header from '../Header'
 
 import './index.css'
@@ -16,8 +17,13 @@ const Home = () => (
           company reviews.Find the job that fits your ability <br />
           and potential
         </p>
+
+        <Link to="/jobs">
+          <button type="button">Find Jobs</button>
+        </Link>
       </div>
     </div>
   </div>
 )
+
 export default Home

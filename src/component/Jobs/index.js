@@ -69,18 +69,45 @@ class Jobs extends Component {
     const {activeemploymenttype} = this.state
     console.log(activeemploymenttype)
     const newelement = e.target.value
-    this.setState({
-      activeemploymenttype: [...activeemploymenttype, newelement],
-    })
+    const newarray = []
+    if (activeemploymenttype.includes(newelement)) {
+      for (let i = 0; i < activeemploymenttype.length; i = i + 1) {
+        if (newelement !== activeemploymenttype[i]) {
+          newarray.push(activeemploymenttype[i])
+        }
+      }
+      this.setState(
+        {
+          activeemploymenttype: newarray,
+        },
+        () => {
+          this.getcompanyData()
+        },
+      )
+    } else {
+      this.setState(
+        {
+          activeemploymenttype: [...activeemploymenttype, newelement],
+        },
+        () => {
+          this.getcompanyData()
+        },
+      )
+    }
   }
 
   handleChange1 = e => {
     const {activesalary} = this.state
     console.log(activesalary)
     const newelement = e.target.value
-    this.setState({
-      activesalary: [...activesalary, newelement],
-    })
+    this.setState(
+      {
+        activesalary: newelement,
+      },
+      () => {
+        this.getcompanyData()
+      },
+    )
   }
 
   getcompanyData = async () => {
@@ -89,8 +116,7 @@ class Jobs extends Component {
     })
     const jwtToken = Cookies.get('jwt_token')
     const {activeemploymenttype, activesalary, searchInput} = this.state
-    const maxele = Math.max(activesalary)
-    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${activeemploymenttype}&minimum_package=${maxele}&search=${searchInput}`
+    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${activeemploymenttype}&minimum_package=${activesalary}&search=${searchInput}`
     console.log(apiUrl)
     const options = {
       headers: {
@@ -145,9 +171,14 @@ class Jobs extends Component {
   )
 
   searching = event => {
-    this.setState({activesearch: event.target.value})
-    const {activesearch} = this.state
-    console.log(activesearch)
+    this.setState(
+      {
+        activesearch: event.target.value,
+      },
+      () => {
+        this.getcompanyData()
+      },
+    )
   }
 
   changeRating = activeemploymenttype => {
@@ -170,9 +201,9 @@ class Jobs extends Component {
 
   render() {
     const {productData} = this.state
-    console.log(productData)
+    const shouldShowProductsList = productData.length > 0
 
-    return (
+    return shouldShowProductsList ? (
       <div className="jobscontainer1">
         <Header />
         <input type="search" className="sear" />
@@ -300,6 +331,140 @@ class Jobs extends Component {
                 />
               ))}
             </ul>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div className="jobscontainer1">
+        <Header />
+        <input type="search" className="sear" />
+        <div className="jobscontainer">
+          <div className="leftside">
+            <div className="Profile">
+              <Profile />
+            </div>
+
+            <hr
+              style={{
+                background: '#b6c5ff',
+                color: '#b6c5ff',
+                borderColor: '#b6c5ff',
+                height: '2px',
+                width: '100%',
+              }}
+              className="line"
+            />
+
+            <div className="TypeofEmployment1">
+              <h3 className="white">Type of Employment</h3>
+              <div>
+                <input
+                  value={employmentTypesList[0].employmentTypeId}
+                  type="checkbox"
+                  onChange={this.handleChange}
+                />
+                <span className="white">{employmentTypesList[0].label} </span>
+              </div>
+
+              <div>
+                <input
+                  value={employmentTypesList[1].employmentTypeId}
+                  type="checkbox"
+                  onChange={this.handleChange}
+                />
+                <span className="white">{employmentTypesList[1].label}</span>
+              </div>
+
+              <div>
+                <input
+                  value={employmentTypesList[2].employmentTypeId}
+                  type="checkbox"
+                  onChange={this.handleChange}
+                />
+                <span className="white">{employmentTypesList[2].label}</span>
+              </div>
+
+              <div>
+                <input
+                  value={employmentTypesList[3].employmentTypeId}
+                  type="checkbox"
+                  onChange={this.handleChange}
+                />
+                <span className="white"> {employmentTypesList[3].label} </span>
+              </div>
+            </div>
+
+            <hr
+              style={{
+                background: '#b6c5ff',
+                color: '#b6c5ff',
+                borderColor: '#b6c5ff',
+                height: '2px',
+                width: '100%',
+              }}
+              className="line"
+            />
+
+            <div className="TypeofEmployment">
+              <h3 className="white">Salary Range</h3>
+              <div>
+                <input
+                  value={salaryRangesList[0].salaryRangeId}
+                  type="checkbox"
+                  onChange={this.handleChange1}
+                />
+                <span className="white"> {salaryRangesList[0].label}</span>
+              </div>
+
+              <div>
+                <input
+                  value={salaryRangesList[1].salaryRangeId}
+                  type="checkbox"
+                  onChange={this.handleChange1}
+                />
+                <span className="white">{salaryRangesList[1].label}</span>
+              </div>
+
+              <div>
+                <input
+                  value={salaryRangesList[2].salaryRangeId}
+                  type="checkbox"
+                  onChange={this.handleChange1}
+                />
+                <span className="white">{salaryRangesList[2].label}</span>
+              </div>
+
+              <div>
+                <input
+                  value={salaryRangesList[3].salaryRangeId}
+                  type="checkbox"
+                  onChange={this.handleChange1}
+                />
+                {console.log(salaryRangesList[3].salaryRangeId)}
+                <span className="white"> {salaryRangesList[3].label}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="Rightside">
+            <input
+              type="search"
+              className="searching"
+              placeholder="Search"
+              onChange={this.changeSearchInput}
+            />
+
+            <div className="no-products-view">
+              <img
+                src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
+                className="no-products-img"
+                alt="no products"
+              />
+              <h1 className="no-products-heading">No Products Found</h1>
+              <p className="no-products-description">
+                We could not find any products. Try other filters.
+              </p>
+            </div>
           </div>
         </div>
       </div>
