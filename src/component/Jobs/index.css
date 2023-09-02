@@ -1,0 +1,68 @@
+.Profile {
+  width: 400px;
+  height: 160px;
+  margin: 20px;
+}
+@media (min-width: 676px) {
+  .jobscontainer {
+    background-color: black;
+
+    background-size: cover;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+  }
+  .sear {
+    display: none;
+  }
+  .Rightside {
+    margin-top: 30px;
+  }
+  .searching {
+    background-color: transparent;
+    border-color: white;
+    padding: 10px;
+    margin-left: 60px;
+    color: white;
+  }
+}
+
+@media (max-width: 676px) {
+  .jobscontainer {
+    background-color: black;
+
+    background-size: cover;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .searching {
+    display: None;
+  }
+  .sear {
+    background-color: transparent;
+    border-color: white;
+    padding: 10px;
+  }
+}
+.white {
+  color: white;
+  font-family: 'Roboto';
+}
+.leftside {
+  display: flex;
+  flex-direction: column;
+}
+
+.TypeofEmployment {
+  margin-left: 15px;
+  margin-top: 20px;
+}
+
+.TypeofEmployment1 {
+  margin-left: 15px;
+}
+
+.line {
+  margin-top: 30px;
+}

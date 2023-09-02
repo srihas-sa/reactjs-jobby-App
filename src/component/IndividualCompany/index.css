@@ -1,0 +1,50 @@
+.individualcompanycard {
+  padding: 20px;
+  background-color: #202020;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  margin: 15px;
+}
+.CompanyName {
+  width: 60px;
+  height: 60px;
+}
+.indi {
+  display: flex;
+  flex-direction: row;
+}
+
+.indi1 {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+.title {
+  color: white;
+  font-family: 'Roboto';
+  font-size: 20px;
+  margin-top: 0px;
+}
+.rating {
+  margin-top: 0px;
+}
+.india {
+  display: flex;
+  flex-direction: row;
+}
+
+.indi123 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.location {
+  margin-right: 15px;
+}
+.Description {
+  color: white;
+  font-family: 'Roboto';
+  font-size: 20px;
+}
