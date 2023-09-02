@@ -84,11 +84,7 @@ class ProductItemDetails extends Component {
 
     return (
       <div className="profileBackground">
-        <img
-          src={profileimageurl}
-          alt="ProfileImage"
-          className="profileimage"
-        />
+        <img src={profileimageurl} alt="profile" className="profileimage" />
         <h1>{name}</h1>
         <p>{shortbio}</p>
       </div>

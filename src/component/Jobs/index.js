@@ -458,7 +458,7 @@ class Jobs extends Component {
               <img
                 src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
                 className="no-products-img"
-                alt="no products"
+                alt="no jobs"
               />
               <h1 className="no-products-heading">No Products Found</h1>
               <p className="no-products-description">

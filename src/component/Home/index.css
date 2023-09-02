@@ -4,6 +4,14 @@
 .heading2 {
   font-size: 25px;
 }
+.homebutton {
+  background-color: #6366f1;
+  padding: 15px;
+  color: white;
+  font-weight: bold;
+  font-family: 'Roboto';
+  border-radius: 10px;
+}
 @media (min-width: 678px) {
   .homecontainer {
     margin: 30px;

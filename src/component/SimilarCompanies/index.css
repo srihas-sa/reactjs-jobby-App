@@ -1,0 +1,32 @@
+.individualcompanycard321 {
+  padding: 20px;
+  background-color: #202020;
+  border-radius: 10px;
+
+  color: white;
+  margin: 15px;
+  width: 40vw;
+}
+@media (min-width: 767px) {
+  .individualcompanycard321 {
+    padding: 20px;
+    background-color: #202020;
+    border-radius: 10px;
+
+    color: white;
+    margin: 15px;
+    width: 40vw;
+  }
+}
+
+@media (max-width: 767px) {
+  .individualcompanycard321 {
+    padding: 20px;
+    background-color: #202020;
+    border-radius: 10px;
+
+    color: white;
+    margin: 15px;
+    width: 80%;
+  }
+}
