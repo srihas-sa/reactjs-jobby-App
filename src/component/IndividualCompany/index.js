@@ -20,7 +20,7 @@ const IndividualCompany = props => {
         <div className="indi">
           <img
             src={companylogourl}
-            alt="company logo"
+            alt="job details company logo"
             className="CompanyName"
           />
           <div className="indi1">

@@ -8,9 +8,7 @@ const Home = () => (
     <Header />
     <div className="homecontainer">
       <div>
-        <h1 className="heading1">
-          FIND THE JOB THAT <br /> FITS YOUR LIFE
-        </h1>
+        <h1 className="heading1">Find The Job That Fits Your Life</h1>
         <p className="heading2">
           Millions of people are searching for jobs,salary information,
           <br />
@@ -23,6 +21,7 @@ const Home = () => (
             Find Jobs
           </button>
         </Link>
+        <Link to="/">Home</Link>
       </div>
     </div>
   </div>

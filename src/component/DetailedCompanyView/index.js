@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
-import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
+
 import SimilarCompanies from '../SimilarCompanies'
 import Header from '../Header'
 
@@ -120,18 +120,23 @@ class DetailedCompanyView extends Component {
   renderFailureView = () => (
     <div className="product-details-error-view-container">
       <img
-        alt="error view"
-        src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-error-view-img.png"
+        alt="failure view"
+        src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
         className="error-view-image"
       />
-      <h1 className="product-not-found-heading">Product Not Found</h1>
-      <button type="button" className="button">
-        Continue Shopping
+      <h1 className="product-not-found-heading">Oops! Something Went Wrong</h1>
+      <p>We cannot seem to find the page you are looking for</p>
+      <button
+        type="button"
+        className="button"
+        onClick={() => this.getProductData()}
+      >
+        Retry
       </button>
     </div>
   )
 
-  render() {
+  renderProductDetailsView = () => {
     const {
       companydetails,
       similarProductsData,
@@ -154,81 +159,103 @@ class DetailedCompanyView extends Component {
     } = companydetails
 
     return (
-      <div className="outerdetailed">
-        <Header />
-        <div className="individualcompanycard12">
-          <div className="indi">
-            <img
-              src={companylogourl}
-              alt="CompanyName"
-              className="CompanyName"
-            />
-            <div className="indi1">
-              <h1 className="title">{title}</h1>
-              <p className="rating">{rating}</p>
-            </div>
-          </div>
-          <div className="indi123">
-            <div className="india">
-              <p className="location">{location}</p>
-              <p>{employmenttype}</p>
-            </div>
-
-            <p>{packageperannum}</p>
-          </div>
-          <hr
-            style={{
-              background: '#b6c5ff',
-              color: '#b6c5ff',
-              borderColor: '#b6c5ff',
-              height: '2px',
-              width: '100%',
-            }}
+      <div className="individualcompanycard12">
+        <div className="indi">
+          <img
+            src={companylogourl}
+            alt="job details company logo"
+            className="CompanyName"
           />
-          <div>
-            <div className="divvs">
-              <h1 className="Description">Description</h1>
-              <a
-                href={companywebsiteurl}
-                target="_blank"
-                rel="noreferrer"
-                className="lightblue"
-              >
-                Visit
-              </a>
-            </div>
-
-            <p>{jobdescription}</p>
-          </div>
-
-          <h1 className="Description">Skills</h1>
-          <div className="align2">
-            {skillsset.map(eachContact => (
-              <div className="align1">
-                <img
-                  src={eachContact.imageurl}
-                  alt="alternative"
-                  className="reqskills"
-                />
-                <h3 className="head3">{eachContact.name}</h3>
-              </div>
-            ))}
-          </div>
-
-          <div>
-            <h1 className="Description">Life at Company</h1>
-            <div className="align3333">
-              <p>{lifeatcom.description}</p>
-              <img src={lifeatcom.imageurl} alt="life at company" />
-            </div>
+          <div className="indi1">
+            <h1 className="title">{title}</h1>
+            <p className="rating">{rating}</p>
           </div>
         </div>
+        <div className="indi123">
+          <div className="india">
+            <p className="location">{location}</p>
+            <p>{employmenttype}</p>
+          </div>
+
+          <p>{packageperannum}</p>
+        </div>
+        <hr
+          style={{
+            background: '#b6c5ff',
+            color: '#b6c5ff',
+            borderColor: '#b6c5ff',
+            height: '2px',
+            width: '100%',
+          }}
+        />
+        <div>
+          <div className="divvs">
+            <h1 className="Description">Description</h1>
+            <a
+              href={companywebsiteurl}
+              target="_blank"
+              rel="noreferrer"
+              className="lightblue"
+            >
+              Visit
+            </a>
+          </div>
+
+          <p>{jobdescription}</p>
+        </div>
+
+        <h1 className="Description">Skills</h1>
+        <ul className="align2">
+          {skillsset.map(eachContact => (
+            <li className="align1">
+              <img
+                src={eachContact.imageurl}
+                alt="name"
+                className="reqskills"
+              />
+              <h3 className="head3">{eachContact.name}</h3>
+            </li>
+          ))}
+        </ul>
+
+        <div>
+          <h1 className="Description">Life at Company</h1>
+          <div className="align3333">
+            <p>{lifeatcom.description}</p>
+            <img src={lifeatcom.imageurl} alt="life at company" />
+          </div>
+        </div>
+
         <h1 className="whitesssss">Similar Jobs</h1>
-        <div className="align">
+        <ul className="align">
           {similarProductsData.map(eachContact => (
             <SimilarCompanies key={eachContact.id} eachdetail={eachContact} />
           ))}
-        </div>
+        </ul>
+      </div>
+    )
+  }
+
+  renderProductDetails = () => {
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderProductDetailsView()
+      case apiStatusConstants.failure:
+        return this.renderFailureView()
+      case apiStatusConstants.inProgress:
+        return this.renderLoadingView()
+      default:
+        return null
+    }
+  }
+
+  render() {
+    return (
+      <div className="outerdetailed" data-testid="loader">
+        <Header />
+        {this.renderProductDetails()}
       </div>
     )
   }

@@ -14,7 +14,7 @@ const SimilarCompanies = props => {
   } = eachdetail
 
   return (
-    <div className="individualcompanycard321">
+    <li className="individualcompanycard321">
       <div className="indi">
         <img
           src={companylogourl}
@@ -35,7 +35,7 @@ const SimilarCompanies = props => {
         <p className="location">{location}</p>
         <p>{employmenttype}</p>
       </div>
-    </div>
+    </li>
   )
 }
 

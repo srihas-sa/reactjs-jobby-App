@@ -71,7 +71,11 @@ class ProductItemDetails extends Component {
         className="error-view-image"
       />
       <h1 className="product-not-found-heading">Profile Not Found</h1>
-      <button type="button" className="button" onClick={this.getProductData}>
+      <button
+        type="button"
+        className="button"
+        onClick={() => this.getProductData()}
+      >
         Retry
       </button>
     </div>

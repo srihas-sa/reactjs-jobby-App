@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
-
+import {BsSearch} from 'react-icons/bs'
 import Profile from '../Profile'
 import Header from '../Header'
 import IndividualCompany from '../IndividualCompany'
@@ -159,13 +159,18 @@ class Jobs extends Component {
   renderFailureView = () => (
     <div className="product-details-error-view-container">
       <img
-        alt="error view"
-        src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-error-view-img.png"
+        alt="failure view"
+        src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
         className="error-view-image"
       />
-      <h1 className="product-not-found-heading">Product Not Found</h1>
-      <button type="button" className="button">
-        Continue Shopping
+      <h1 className="product-not-found-heading">Oops! Something Went Wrong</h1>
+      <p>We cannot seem to find the page you are looking for</p>
+      <button
+        type="button"
+        className="button"
+        onClick={() => this.getcompanyData()}
+      >
+        Retry
       </button>
     </div>
   )
@@ -196,14 +201,56 @@ class Jobs extends Component {
   changeSearchInput = event => {
     console.log(event.target.value)
     this.setState({searchInput: event.target.value})
-    this.getcompanyData()
+  }
+
+  renderProductDetailsView = () => {
+    const {productData} = this.state
+    const shouldShowProductsList = productData.length > 0
+
+    return shouldShowProductsList ? (
+      <div>
+        {productData.map(eachvalue => (
+          <IndividualCompany eachdetail={eachvalue} key={eachvalue.id} />
+        ))}
+      </div>
+    ) : (
+      <div className="no-products-view">
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
+          className="no-products-img"
+          alt="no-jobs"
+        />
+        <h1 className="no-products-heading">No Jobs Found</h1>
+        <p className="no-products-description">
+          We could not find any jobs. Try other filters
+        </p>
+        <button type="button" onClick={() => this.getcompanyData()}>
+          Retry
+        </button>
+      </div>
+    )
+  }
+
+  renderProductDetails = () => {
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderProductDetailsView()
+      case apiStatusConstants.failure:
+        return this.renderFailureView()
+      case apiStatusConstants.inProgress:
+        return this.renderLoadingView()
+      default:
+        return null
+    }
   }
 
   render() {
     const {productData} = this.state
     const shouldShowProductsList = productData.length > 0
 
-    return shouldShowProductsList ? (
+    return (
       <div className="jobscontainer1">
         <Header />
         <input type="search" className="sear" />
@@ -232,7 +279,7 @@ class Jobs extends Component {
                   type="checkbox"
                   onChange={this.handleChange}
                 />
-                <span className="white">{employmentTypesList[0].label} </span>
+                <label className="white">{employmentTypesList[0].label} </label>
               </div>
 
               <div>
@@ -241,7 +288,7 @@ class Jobs extends Component {
                   type="checkbox"
                   onChange={this.handleChange}
                 />
-                <span className="white">{employmentTypesList[1].label}</span>
+                <label className="white">{employmentTypesList[1].label}</label>
               </div>
 
               <div>
@@ -250,7 +297,7 @@ class Jobs extends Component {
                   type="checkbox"
                   onChange={this.handleChange}
                 />
-                <span className="white">{employmentTypesList[2].label}</span>
+                <label className="white">{employmentTypesList[2].label}</label>
               </div>
 
               <div>
@@ -259,7 +306,10 @@ class Jobs extends Component {
                   type="checkbox"
                   onChange={this.handleChange}
                 />
-                <span className="white"> {employmentTypesList[3].label} </span>
+                <label className="white">
+                  {' '}
+                  {employmentTypesList[3].label}{' '}
+                </label>
               </div>
             </div>
 
@@ -282,7 +332,7 @@ class Jobs extends Component {
                   type="checkbox"
                   onChange={this.handleChange1}
                 />
-                <span className="white"> {salaryRangesList[0].label}</span>
+                <label className="white"> {salaryRangesList[0].label}</label>
               </div>
 
               <div>
@@ -291,7 +341,7 @@ class Jobs extends Component {
                   type="checkbox"
                   onChange={this.handleChange1}
                 />
-                <span className="white">{salaryRangesList[1].label}</span>
+                <label className="white">{salaryRangesList[1].label}</label>
               </div>
 
               <div>
@@ -300,7 +350,7 @@ class Jobs extends Component {
                   type="checkbox"
                   onChange={this.handleChange1}
                 />
-                <span className="white">{salaryRangesList[2].label}</span>
+                <label className="white">{salaryRangesList[2].label}</label>
               </div>
 
               <div>
@@ -310,7 +360,7 @@ class Jobs extends Component {
                   onChange={this.handleChange1}
                 />
                 {console.log(salaryRangesList[3].salaryRangeId)}
-                <span className="white"> {salaryRangesList[3].label}</span>
+                <label className="white"> {salaryRangesList[3].label}</label>
               </div>
             </div>
           </div>
@@ -322,149 +372,15 @@ class Jobs extends Component {
               placeholder="Search"
               onChange={this.changeSearchInput}
             />
+            <button
+              type="button"
+              data-testid="searchButton"
+              onClick={() => this.getcompanyData()}
+            >
+              <BsSearch />
+            </button>
 
-            <ul>
-              {productData.map(eachContact => (
-                <IndividualCompany
-                  key={eachContact.id}
-                  eachdetail={eachContact}
-                />
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    ) : (
-      <div className="jobscontainer1">
-        <Header />
-        <input type="search" className="sear" />
-        <div className="jobscontainer">
-          <div className="leftside">
-            <div className="Profile">
-              <Profile />
-            </div>
-
-            <hr
-              style={{
-                background: '#b6c5ff',
-                color: '#b6c5ff',
-                borderColor: '#b6c5ff',
-                height: '2px',
-                width: '100%',
-              }}
-              className="line"
-            />
-
-            <div className="TypeofEmployment1">
-              <h3 className="white">Type of Employment</h3>
-              <div>
-                <input
-                  value={employmentTypesList[0].employmentTypeId}
-                  type="checkbox"
-                  onChange={this.handleChange}
-                />
-                <span className="white">{employmentTypesList[0].label} </span>
-              </div>
-
-              <div>
-                <input
-                  value={employmentTypesList[1].employmentTypeId}
-                  type="checkbox"
-                  onChange={this.handleChange}
-                />
-                <span className="white">{employmentTypesList[1].label}</span>
-              </div>
-
-              <div>
-                <input
-                  value={employmentTypesList[2].employmentTypeId}
-                  type="checkbox"
-                  onChange={this.handleChange}
-                />
-                <span className="white">{employmentTypesList[2].label}</span>
-              </div>
-
-              <div>
-                <input
-                  value={employmentTypesList[3].employmentTypeId}
-                  type="checkbox"
-                  onChange={this.handleChange}
-                />
-                <span className="white"> {employmentTypesList[3].label} </span>
-              </div>
-            </div>
-
-            <hr
-              style={{
-                background: '#b6c5ff',
-                color: '#b6c5ff',
-                borderColor: '#b6c5ff',
-                height: '2px',
-                width: '100%',
-              }}
-              className="line"
-            />
-
-            <div className="TypeofEmployment">
-              <h3 className="white">Salary Range</h3>
-              <div>
-                <input
-                  value={salaryRangesList[0].salaryRangeId}
-                  type="checkbox"
-                  onChange={this.handleChange1}
-                />
-                <span className="white"> {salaryRangesList[0].label}</span>
-              </div>
-
-              <div>
-                <input
-                  value={salaryRangesList[1].salaryRangeId}
-                  type="checkbox"
-                  onChange={this.handleChange1}
-                />
-                <span className="white">{salaryRangesList[1].label}</span>
-              </div>
-
-              <div>
-                <input
-                  value={salaryRangesList[2].salaryRangeId}
-                  type="checkbox"
-                  onChange={this.handleChange1}
-                />
-                <span className="white">{salaryRangesList[2].label}</span>
-              </div>
-
-              <div>
-                <input
-                  value={salaryRangesList[3].salaryRangeId}
-                  type="checkbox"
-                  onChange={this.handleChange1}
-                />
-                {console.log(salaryRangesList[3].salaryRangeId)}
-                <span className="white"> {salaryRangesList[3].label}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="Rightside">
-            <input
-              type="search"
-              className="searching"
-              placeholder="Search"
-              onChange={this.changeSearchInput}
-            />
-
-            <div className="no-products-view">
-              <img
-                src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
-                className="no-products-img"
-                alt="no jobs"
-              />
-              <h1 className="no-products-heading">No Products Found</h1>
-              <p className="no-products-description">
-                We could not find any products. Try other filters.
-              </p>
-            </div>
+            {this.renderProductDetails()}
           </div>
         </div>
       </div>

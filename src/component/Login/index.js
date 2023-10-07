@@ -59,13 +59,13 @@ class Login extends Component {
           <div className="imgdiv">
             <img
               src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
-              alt="JOBBYAPPlogo"
+              alt="website logo"
               className="loginlogo"
             />
           </div>
           <label htmlFor="username">USERNAME</label> <br />
           <input
-            type="text"
+            type="password"
             placeholder="Username:rahul"
             className="inputUser"
             onChange={this.changingusername}
@@ -83,7 +83,7 @@ class Login extends Component {
           <button type="submit" className="loginbuttn">
             Login
           </button>
-          {showSubmitError && <p className="error-message">*{errorMsg}</p>}
+          {showSubmitError && <p className="error-message">{errorMsg}</p>}
         </form>
         <h1>dsb bfwrib rfbrb</h1>
       </div>
